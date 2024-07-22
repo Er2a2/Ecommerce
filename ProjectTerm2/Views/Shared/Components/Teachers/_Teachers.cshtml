@@ -1,0 +1,29 @@
+﻿<style> .teacher-item {
+       margin-bottom: 20px; 
+       }
+   </style>
+@model List<B.E.Teacher>
+<div class="container d-none d-lg-block">
+    <div class="row mt-3 mb-5">
+    @foreach(var item in Model)
+    {
+            <div class="col-md-3 teacher-item">
+                <div class="card teacher-card">
+                    <img src="~/image/Teacher/@item.pic" alt="teacher" class="img-fluid card-img-top">
+                    <div class="card-body">
+                        <p class="card-text font-14 text-center">
+                            @item.name @item.family
+                        </p><p class="card-text font-12  text-info text-center">@item.email</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="text-center">
+                            <a href="#"><i class="fab fa-instagram ml-2 text-danger"></i></a>
+                            <a href="#"><i class="fab fa-telegram ml-2 text-primary"></i></a>
+                            <a href="#"><i class="fab fa-whatsapp ml-2 text-success"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    }
+    </div>
+</div>

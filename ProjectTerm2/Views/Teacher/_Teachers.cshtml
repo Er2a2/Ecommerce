@@ -1,0 +1,59 @@
+﻿<link rel="stylesheet" href="/css/fontawesome/css/all.css">
+<style>
+    .teacher-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .teacher-item {
+        flex: 1 1 30%;
+        margin: 10px;
+        box-sizing: border-box;
+    }
+
+    .teacher-card {
+        width: 100%;
+    }
+
+        .teacher-card img {
+            width: 100%;
+            max-height: 300px; /* ارتفاع ثابت برای تصاویر */
+            height: auto; /* تنظیم خودکار ارتفاع بر اساس نسبت تصویر */
+            /* object-fit: cover; /* برای برش دادن تصاویر به صورت مناسب */ */
+        }
+
+    .card-footer a {
+        margin: 0 5px;
+    }
+</style>
+
+@model List<B.E.Teacher>
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<div class="teacher-container">
+    @foreach (var item in Model)
+    {
+        <div class="teacher-item">
+            <div class="card teacher-card">
+                <img src="~/image/Teacher/@item.pic" alt="teacher" class="img-fluid card-img-top">
+                <div class="card-body">
+                    <p class="card-text font-14 text-center">
+                        @item.name @item.family
+                    </p>
+                    <p class="card-text font-12 text-info text-center">@item.email</p>
+                </div>
+                <div class="card-footer" style="position: static;">
+                    <div class="text-center">
+                        <a href="#"><i class="fab fa-instagram text-danger"></i></a>
+                        <a href="#"><i class="fab fa-telegram text-primary"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp text-success"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

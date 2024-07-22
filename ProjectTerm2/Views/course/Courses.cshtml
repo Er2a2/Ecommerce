@@ -1,0 +1,10 @@
+﻿@* اینو برای اون ویو دوره ها گذاشتم *@
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h2>دوره های موجود</h2>
+
+<div>
+    @await Component.InvokeAsync("ListCourse")
+</div>

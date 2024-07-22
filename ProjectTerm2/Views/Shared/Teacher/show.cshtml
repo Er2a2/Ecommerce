@@ -1,0 +1,264 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+@model List<B.E.Teacher>
+@section pre {
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <meta name="description" content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google.">
+        <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template, eCommerce dashboard, analytic dashboard">
+        <meta name="author" content="ThemeSelect">
+        <title>جدول داده | متریالایز - داشبورد ادمین متریالایز</title>
+        <link rel="apple-touch-icon" href="~/app-assets/images/favicon/apple-touch-icon-152x152.png">
+        <link rel="shortcut icon" type="image/x-icon" href="~/app-assets/images/favicon/favicon-32x32.png">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- BEGIN: VENDOR CSS-->
+        <link rel="stylesheet" type="text/css" href="~/app-assets/vendors/vendors.min.css">
+        <link rel="stylesheet" type="text/css" href="~/app-assets/vendors/flag-icon/css/flag-icon.min.css">
+        <link rel="stylesheet" type="text/css" href="~/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="~/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="~/app-assets/vendors/data-tables/css/select.dataTables.min.css">
+        <!-- END: VENDOR CSS-->
+        <link rel="stylesheet" type="text/css" href="~/app-assets/css-rtl/style-rtl.css">
+        <!-- BEGIN: Page Level CSS-->
+        <link rel="stylesheet" type="text/css" href="~/app-assets/css-rtl/themes/vertical-dark-menu-template/materialize.css">
+        <link rel="stylesheet" type="text/css" href="~/app-assets/css-rtl/themes/vertical-dark-menu-template/style.css">
+        <link rel="stylesheet" type="text/css" href="~/app-assets/css/pages/data-tables.css">
+        <!-- END: Page Level CSS-->
+        <!-- BEGIN: Custom CSS-->
+        <link rel="stylesheet" type="text/css" href="~/app-assets/css-rtl/custom/custom.css">
+        <!-- BEGIN: Page Level CSS-->                
+        <link rel="stylesheet" type="text/css" href="~/app-assets/css-rtl/themes/vertical-modern-menu-template/materialize.css">
+        <link rel="stylesheet" type="text/css" href="~/app-assets/css-rtl/themes/vertical-modern-menu-template/style.css">
+        <!-- END: Page Level CSS-->                  
+        <!-- BEGIN: Custom CSS-->                   
+        <!-- END: Custom CSS-->
+        <style>
+            .dataTables_filter {
+                display:none;
+            }
+
+            .dataTables_length {
+                display: none;
+            }
+        </style>
+
+    }
+<div class="row">
+                <div class="row">
+                    <div class="col s12">
+            <h4 class="card-title">هر سرنخی که از اساتید دارید را در کادر پایین سرچ کنید</h4>
+            <div class="chips chips-placeholder input-field"><input class="input" id="f6166e3e-928c-a966-d918-7db265020f66" placeholder="اینجا سرچ کنید"></div>
+            <div class="row">
+                <div class="col-12">
+                    <a class="waves-effect waves-light btn-large mb-1 mr-1 btn-block" id="btn1">دکمه</a>
+                </div>
+            </div>
+            <div id="modal1" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <h4>اطلاعات استاد</h4>
+                    <div id="html-view-validations">
+                        <form asp-action="Update" class="formValidate0" id="edit" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <label for="uname0"></label>
+                                    <input class="validate" required="" id="fn" name="name" type="text">
+                                </div>
+                                <div class="input-field col s12">
+                                    <label for="uname0"></label>
+                                    <input class="validate" required="" id="ln" name="family" type="text">
+                                </div>
+                                <div class="input-field col s12">
+                                    <label for="cemail0"></label>
+                                    <input class="validate" required="" id="em" type="email" name="email">
+                                </div>
+                                <div class="input-field  col s12">
+                                    <label class="contact-input" for="fn">عکس</label>
+                                    <input id="pic" type="file" name="pic" />
+                                </div>
+
+                                <button class=" btn waves-effect waves-light right  modal-action modal-close" type="submit" name="action">
+                                        ارسال
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <br />
+                    </div>
+
+                    <div class="col s12">
+                        <table id="data-table-simple" class="display">
+                            <thead>
+                                <tr>
+                                    <th>نام</th>
+                                    <th>فامیل</th>
+                                    <th>ایمیل</th>
+                                    <th>تصویر</th>
+                                    <th>فرمان</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    foreach(var i in Model)                                  
+                                    {
+                                                  <tr>
+                                                   <td style="display:none">@i.id</td>   <!-- شناسه رکورد -->
+                                                   <td>@i.name</td>
+                                                   <td>@i.family</td>
+                                                   <td>@i.email</td>
+                                                   <td><img src="~/image/Teacher/@i.pic" style="width:50px; height:50px;" /></td>
+                                                   <td>
+                                                   <a class="mb-6 btn-floating waves-effect waves-light purple lightrn-1 modal-trigger btt" href="#modal1">
+                                                   <i class="material-icons">open_in_new</i></a>                                             
+                                                  </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>نام</th>
+                        <th>فامیل</th>
+                        <th>ایمیل</th>
+                        <th>تصویر</th>
+                        <th>فرمان</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="dataTables_paginate paging_simple_numbers" id="multi-select_paginate">
+                <a class="paginate_button previous disabled" aria-controls="multi-select" data-dt-idx="0" tabindex="-1" id="multi-select-previous">قبلی</a><span>
+                    @{
+                        BLL.blteacher blc = new BLL.blteacher();
+                        int f = blc.gettotal();     //گرفتن کل معلمان
+                        int count;
+                        if (f % 10 == 0) count = f / 10;
+                        else count = (f / 10) + 1;    //محاسبه تعداد صفحات 
+                        for(var i=0; i<count; i++)
+                        {
+                            <a class="paginate_button" aria-controls="multi-select" data-dt-idx="َ@i" tabindex="0" href=@Url.Action("getskip","Teacher",new{c=i}) >@i</a>
+                        }
+                    }
+                </span><a class="paginate_button next " aria-controls="multi-select" data-dt-idx="7" tabindex="0" id="multi-select-next">بعدی</a>
+                        </div>
+                    </div>
+                </div>
+ 
+</div>
+
+@section Script{
+
+    <script src="~/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+    <script src="~/app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/app-assets/vendors/data-tables/js/dataTables.select.min.js"></script>                
+    <script src="~/app-assets/js/plugins.js"></script>
+    <script src="~/app-assets/js/search.js"></script>
+    <script src="~/app-assets/js/custom/custom-script.js"></script>
+    <!-- END THEME  JS-->
+    <!-- BEGIN PAGE LEVEL JS-->
+    <script src="~/app-assets/js/scripts/data-tables.js"></script>
+    <!-- END PAGE LEVEL JS-->
+    <!-- END THEM~
+    <!-- BEGIN PA~ JS-->
+    <script src="~/app-assets/js/scripts/ui-chips.js"></script>
+        @* AI(ChatGPT) *@
+    <script>
+        $(document).ready(function () {
+            var idd;   // متغیر برای نگهداری آی‌دی
+            var currentrow; // متغیر برای نگهداری سطر فعلی
+            // تابع برای ارسال فرم و به‌روزرسانی داده‌ها
+            $("form#edit").submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                formData.append("id", idd);   // اضافه کردن آی‌دی به داده‌های فرم
+
+                $.ajax({
+                    type: "POST",
+                    enctype: "multipart/form-data",
+                    dataType: "json",
+                    url: "@Url.Action("Update", "Teacher")",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    complete: function (myfunction) {
+                      // این برای اپدیت سریع دیتابیس بدون رفرشه
+                        currentrow.find("td:eq(1)").text($("#fn").val());
+                        currentrow.find("td:eq(2)").text($("#ln").val());
+                        currentrow.find("td:eq(3)").text($("#em").val());
+                        var filename = $("#pic").val().split('\\').pop();
+                        currentrow.find('img').attr('src', "/image/Teacher/" + filename);
+                    }
+                });
+            });
+            // تابع برای دریافت داده‌های یک سطر از جدول و پر کردن فرم با این داده‌ها
+            $(".btt").click(function () {
+                currentrow = $(this).closest("tr");
+                idd = currentrow.find("td:eq(0)").text();   // استخراج شناسه رکورد از اولین سلول سطر
+                $("#fn").val(currentrow.find("td:eq(1)").text());
+                $("#ln").val(currentrow.find("td:eq(2)").text());
+                $("#em").val(currentrow.find("td:eq(3)").text());
+            });
+            a
+
+            // تابع برای ارسال داده‌های تگ‌ها و تغییر مسیر بر اساس نتایج
+            $("#btn1").click(function () {
+                var chipsData = M.Chips.getInstance($('.chips')).chipsData;
+                var tags = chipsData.map(function (chip) {
+                    return chip.tag;
+                });
+
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    //برو از کنترلر تیچر اکشن تی اس جیسون رو بیار
+                    url: "@Url.Action("tsjson", "Teacher")",
+                    data: JSON.stringify(tags),
+                    success: function (data) {
+                        //redirect مسیر رو عوض میکنه
+                        //تو tsjson هم ریدایرکت سرچ رو نوشتیم
+                        window.location = data.redirect + "?tags=" + encodeURIComponent(JSON.stringify(tags));
+                    },
+                    // این پایینیم ننویسی ننوشتی
+                    // error: function (xhr, status, error) {
+                    //     console.error(xhr.responseText);
+                    // }
+                });
+            });
+        });
+    </script>
+    <script src="~/app-assets/js/scripts/advance-ui-modals.js"></script>
+        @* Mohsen Mo *@
+
+
+@*     <script>
+        $(document).ready(function myfunction() {
+            $("#btn1").click(function () {
+                $.ajax(
+                    {
+                        dataType: "json",
+                        contentType: "application/json;charset=utf-8",
+                        url: "@Url.Action("tsjson","Teacher")",
+
+                        success: function (data) {
+
+                            window.location = data.redirect + "?" + 'tags' + JSON.stringify(M.Chips.getInstance($('.chips')).chipsData);
+                                      
+                    },
+
+
+            });
+
+        });
+    });
+
+
+    </script> *@
+}

@@ -1,0 +1,151 @@
+﻿@model course
+
+@{
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/app-assets/vendors/vendors.min.css">
+<link rel="stylesheet" type="text/css" href="~/app-assets/vendors/flag-icon/css/flag-icon.min.css">
+<link rel="stylesheet" type="text/css" href="~/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="~/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="~/app-assets/vendors/data-tables/css/select.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="~/app-assets/vendors/dropify/css/dropify.min.css" />
+<link rel="stylesheet" type="text/css" href="~/app-assets/vendors/vendors.min.css">
+<link rel="stylesheet" type="text/css" href="~/app-assets/vendors/flag-icon/css/flag-icon.min.css">
+
+<div id="html-view-validations">
+    <form asp-action="edit" asp-controller="course" id="teacherForm" method="post" enctype="multipart/form-data">
+        <div id="modal2" class="modal">
+            <div class="modal-content mb-5">
+                <div class="modal-header">
+                    <h5 class="mt-0" id="modal-title">اساتید موردنظر را انتخاب نمایید</h5>
+                </div>
+                <div id="modal-body2">
+                    <div class="row">
+                        @foreach (B.E.Teacher item in ViewBag.Teachers)
+                        {
+                            var isChecked = Model.teacher_Courses.Any(s => s.TeacherId == item.id);
+                            //     var isChecked = Model.teacher_Courses.Where(s => s.teacher == item);   اینو گذاشتم ارور داد چون ورودی where ترو نیست
+                            <div class="col s4">
+                                <label>
+                                    @if (isChecked)
+                                    {
+                                        <input checked type="checkbox" name="Teachers" class="form-control tch" value="@item.id" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" name="Teachers" class="form-control tch" value="@item.id" />
+
+                                    }
+                                    @*   //این @ ها برای اینه ک داریم سی شارپ تو html مینویسیم *@
+                                    <span class="black-text">@item.name @item.family</span>
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <a class="btn blue waves-light mt-2 right" id="btnsave">انتخاب</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <label for="uname0">عنوان</label>
+                <input asp-for="title" class="validate" required="" id="uname0" type="text">
+            </div>
+            <div class="input-field col s12">
+                <label for="uname0">مدت دوره</label>
+                <input asp-for="totaltime" class="validate" required="" id="uname0" type="number">
+            </div>
+            <div class="input-field col s12">
+                <label for="cemail0">توضیحات دوره</label>
+                <input class="validate" asp-for="descript" required="" id="cemail0" type="text">
+            </div>
+            <div class="input-field col s12">
+                <label for="cemail0">قیمت دوره</label>
+                @* asp-for="price" اینو نوشتی میتونی name  رو پاک کنی دیگه *@
+                @* name="price" *@
+                <input class="validate" asp-for="price" required="" id="cemail0" type="number">
+            </div>
+            <div class="row">
+                <div class="col m12">
+                    <label>پیش نمایش</label>
+                    <video controls="controls" style="width: 350px">
+                        <source src="~/videos/course/@Model.videoUrl" type="video/mp4" />
+
+                    </video>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col m12">
+                    <label>ویدیو مقدماتی</label>
+                    <input name="videointro" type="file" id="input-file-now" class="dropify" data-default-file="" />
+                </div>
+            </div>
+            <div class="col s12 ">
+                <button type="button" class="btn btn-lg" id="SelectTeachers">اساتید</button>
+
+            </div>
+            <input hidden id="TeachersInput" name="Teachers" />
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <button class="btn cyan waves-effect waves-light right" type="submit" name="action">
+                    ارسال
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </div>
+
+    </form>
+</div>
+@section Script {
+    <script src="~/app-assets/js/scripts/advance-ui-modals.min.js"></script>
+    <script src="~/app-assets/vendors/dropify/js/dropify.min.js"></script>
+    <script src="~/app-assets/js/scripts/form-file-uploads.js"></script>
+    <script src="~/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+    <script src="~/app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/app-assets/vendors/data-tables/js/dataTables.select.min.js"></script>
+    <script src="~/app-assets/js/plugins.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#SelectTeachers").click(function () {
+                $("#modal2").modal('open');
+            });
+
+            $("#btnsave").click(function () {
+                $("#modal2").modal('close');
+                var ids = [];
+                $(':checkbox:checked').each(function () {
+                    var checkboxValue = $(this).val();
+                    if (checkboxValue !== 'on') {
+                        ids.push(checkboxValue);
+                    }
+                });
+                $("#TeachersInput").val(ids.join(',')); // ذخیره مقادیر در فیلد مخفی
+            });
+        });
+
+        // $(document).ready(function () {
+        //     $("#SelectTeachers").focus(function () {
+        //         $("#modal2").modal('open');
+        //     });
+        // });
+
+        // $("#btnsave").click(function () {
+        //     $("#modal2").modal('close');
+        //     var ids = [];
+        //     $(':checkbox:checked').each(function (i) {
+        //         var checkboxValue = $(this).val()
+        //         if (checkboxValue !== 'on') {
+        //             ids.push(checkboxValue)
+        //         }
+        //     });
+        // });
+
+        // ids.each(function (i) {
+        //     var teacher = $("#Teachers").val();
+        //     teacher.push(ids[i]);
+        // })
+    </script>
+}
